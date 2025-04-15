@@ -4,7 +4,7 @@ import { Matrix4 } from "three";
 
 import { useRef } from "react";
 
-function Box() {
+function Boxes() {
 
   const boxRef = useRef();
   const boxRef2 = useRef();
@@ -41,6 +41,7 @@ function Box() {
 
     boxRef3.current.matrix.multiplyMatrices(world, transform);
   });
+
   return(<>
     <mesh ref={boxRef}>
       <boxGeometry/>
@@ -65,7 +66,7 @@ function App() {
         <ambientLight intensity={0.4}/>
         <directionalLight position={[0, 0.5, 1]} intensity={1}/>
         <directionalLight position={[0, 1, 0]} intensity={1}/>
-        <Box/>
+        <Boxes/>
         <OrbitControls makeDefault/>
       </Canvas>
     </div>
