@@ -44,7 +44,6 @@ export default function App() {
           right: 0,
         }}
       >
-        <h1>HELLO</h1>
       </div>
       <div id="canvas-container" style={
         {
