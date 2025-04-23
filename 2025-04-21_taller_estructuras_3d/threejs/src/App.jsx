@@ -1,0 +1,68 @@
+import * as THREE from "three";
+import { Canvas, useLoader} from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
+import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
+import { useEffect, useRef, useState } from "react";
+
+function Scene(props) {
+  const [obj, setObj] = useState(useLoader(OBJLoader, props.url));
+  const [wireframe, setWireframe] = useState(() => {
+    const meshes = obj.children.filter(child => child.isMesh);
+    const wireframes = meshes.map(mesh => {
+      const wireframe = new THREE.LineSegments(
+        new THREE.WireframeGeometry(mesh.geometry),
+        new THREE.LineBasicMaterial({ color: 0xFF0000 })
+      );
+      return wireframe;
+    });
+
+    const group = new THREE.Group();
+    wireframes.forEach(wireframe => group.add(wireframe));
+
+    return group;
+  });
+
+  useEffect(() => {
+  }, []);
+
+  return (
+    <>
+      <primitive object={obj}/>
+      <primitive object={wireframe} />
+    </>
+  );
+};
+
+export default function App() {
+
+  return (
+    <div id="root" style={{ width: "100vw", height: "100vh" }}>
+      <div id="controls"
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+        }}
+      >
+        <h1>HELLO</h1>
+      </div>
+      <div id="canvas-container" style={
+        {
+          display: "grid",
+          width: "100%",
+          height: "100%",
+
+        }}
+      >
+
+        <Canvas>  
+          <ambientLight intensity={0.4}/>
+          <directionalLight position={[0, 0.5, 1]} intensity={1}/>
+          <directionalLight position={[0, 1, 0]} intensity={1}/>
+          <Scene url="bow.obj"/>
+          <OrbitControls makeDefault/>
+        </Canvas>
+      </div>
+    </div>
+  );
+}
