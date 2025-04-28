@@ -4,9 +4,9 @@ import { OrbitControls } from "@react-three/drei";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 import { useEffect, useRef, useState } from "react";
 
-function Scene(props) {
-  const [obj, setObj] = useState(useLoader(OBJLoader, props.url));
-  const [wireframe, setWireframe] = useState(() => {
+function ObjMesh(props) {
+  const obj = useLoader(OBJLoader, props.url);
+  const wireframe = (() => {
     const meshes = obj.children.filter(child => child.isMesh);
     const wireframes = meshes.map(mesh => {
       const wireframe = new THREE.LineSegments(
@@ -20,10 +20,7 @@ function Scene(props) {
     wireframes.forEach(wireframe => group.add(wireframe));
 
     return group;
-  });
-
-  useEffect(() => {
-  }, []);
+  })();
 
   return (
     <>
@@ -58,7 +55,7 @@ export default function App() {
           <ambientLight intensity={0.4}/>
           <directionalLight position={[0, 0.5, 1]} intensity={1}/>
           <directionalLight position={[0, 1, 0]} intensity={1}/>
-          <Scene url="bow.obj"/>
+          <ObjMesh url="bow.obj"/>
           <OrbitControls makeDefault/>
         </Canvas>
       </div>
