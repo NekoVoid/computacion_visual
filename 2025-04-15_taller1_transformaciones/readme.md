@@ -36,6 +36,8 @@ Tranformaciones en objetos discretos:
     }
   popMatrix();
 ```
+![Animaciin processing](processing_anim.gif)
+
 El sketch se puede correr con el archivo de [Processing](./processing/processing.pde)
 
 ## Python
@@ -176,6 +178,7 @@ transform = new Matrix4().makeScale(
 // apply transform and world transform to the green box
 boxRef3.current.matrix.multiplyMatrices(world, transform);
 ```
+![Animacion Three.js](threejs_anim.gif)
 
 el codigo de la animacion se encuentra en [App.js](./threejs/src/App.jsx) y se puede correr con los comandos
 ```sh
