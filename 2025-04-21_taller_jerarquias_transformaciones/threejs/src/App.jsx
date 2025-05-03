@@ -1,15 +1,17 @@
 import * as THREE from "three";
-import { Canvas, useLoader} from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 import { useEffect, useRef, useState } from "react";
 
 
-
+// This is a simple arm with two segments (shoulder and elbow) that can be rotated
+// independently. The arm is made up of two boxes, one for the shoulder and one for the elbow
+// The shoulder is the parent of the elbow, so when the shoulder rotates, the elbow follows.
 function Arm(props){
   const shoulder = useRef();
   const elbow = useRef();
 
+  // Original position, rotation and scale of the shoulder and elbow
   const ogShoulder = {
     position: new THREE.Vector3(0,0,0),
     rotation: new THREE.Euler(0,0,0, "XYZ"),
@@ -21,17 +23,22 @@ function Arm(props){
     scale: new THREE.Vector3(1,1,1),
   };
 
+  // This effect is used to set the position, rotation and scale of the shoulder and elbow, parameters passed as props
   useEffect(() => {
     if (props.shoulder){
+      // if shoulder position prop is passed, add it to the original position, set it to the original otherwise
       if(props.shoulder.position) shoulder.current.position.addVectors(props.shoulder.position, ogShoulder.position);
       else shoulder.current.position.copy(ogShoulder.position);
+      // if shoulder scale prop is passed, multiply it with the original scale, set it to the original otherwise
       if(props.shoulder.scale) shoulder.current.scale.multiplyVectors(props.shoulder.scale, ogShoulder.scale);
       else shoulder.current.scale.copy(ogShoulder.scale);
+      // if shoulder rotation prop is passed, set it to the rotation prop, set it to the original otherwise
       if(props.shoulder.rotation) shoulder.current.rotation.copy(props.shoulder.rotation);
       else shoulder.current.rotation.copy(ogShoulder.rotation);
     }
 
     if(props.elbow){
+      // same as with the shoulder for the elbow
       if(props.elbow.position) elbow.current.position.addVectors(props.elbow.position, ogElbow.position);
       else elbow.current.position.copy(ogElbow.position);
       if(props.elbow.scale) elbow.current.scale.multiplyVectors(props.elbow.scale, ogElbow.scale);
@@ -59,6 +66,7 @@ function Arm(props){
 
 export default function App() {
 
+  // articulations transformation state
   const [shoulder, setShoulder] = useState({
     position: new THREE.Vector3(0,2.5,0),
     rotation: new THREE.Euler(0,0,0, "XYZ"),
@@ -86,7 +94,8 @@ export default function App() {
         <Canvas>  
           <ambientLight intensity={0.4}/>
           <directionalLight position={[0, 0.5, 1]} intensity={1}/>
-          <directionalLight position={[0, 1, 0]} intensity={1}/>
+          <directionalLight position={[0, 1, 0]} intensity={1}/> 
+          {/* Arm component */}
             <Arm elbow={elbow} shoulder={shoulder}/>
           <OrbitControls makeDefault/>
         </Canvas>
@@ -100,6 +109,7 @@ export default function App() {
           display: "grid"
         }}
       >
+        {/* Elbow component rotation control */}
         <label>
           Elbow: <wbr/>
           <input type="range" min={0} max={5*Math.PI/6} step={0.01} defaultValue={0} onChange={e => {
@@ -108,6 +118,7 @@ export default function App() {
           }}/>
         </label>
         
+        {/* Shoulder component rotation control */}
         <label>
           Shoulder: <wbr/>
           <input type="range" min={-Math.PI/2} max={Math.PI/2} step={0.01} defaultValue={0} onChange={e => {
