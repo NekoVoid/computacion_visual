@@ -5,9 +5,9 @@ Fundamentos de la percepción visual artificial mediante imágenes en escala de 
 
 La siguiente imagen sera cargada con:
 ```python
-og_image = cv2.imread('resting_cat.jpg')
+og_image = cv2.imread('../../assets/resting_cat.jpg')
 ```
-<img src="python/resting_cat.jpg" alt="Gato descansando" height="500"/>
+<img src="../assets//resting_cat.jpg" alt="Gato descansando" height="500"/>
 
 Se reescala para que algunos de los efectos de filtros sean mas notorios
 ```python
