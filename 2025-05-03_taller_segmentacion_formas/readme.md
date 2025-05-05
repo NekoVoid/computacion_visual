@@ -78,6 +78,7 @@ bound_box = cv2.addWeighted(bound_box, 0.6, contour_img, 0.4, 0)
 ![Rana hongo bounding box](python/bound_box.png)
 
 recopliacion y algunas metricas
+
 ![recopilacion](python/output.png)
 
 el codigo que aplica estos filtros y obtiene estos datos se encuentra en [jupyter notebook](python/segmentacion_formas.ipynb)
